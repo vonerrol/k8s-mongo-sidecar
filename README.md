@@ -1,19 +1,16 @@
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fmorphy2k%2Fk8s-mongo-sidecar%2Fbadge&style=flat)](https://actions-badge.atrox.dev/morphy2k/k8s-mongo-sidecar/goto)
-[![David](https://david-dm.org/morphy2k/k8s-mongo-sidecar.svg)](https://david-dm.org)
-
 # Mongo Kubernetes Replica Set Sidecar
 
 This project is as a PoC to setup a MongoDB replica set using Kubernetes. It should handle resizing of any type and be resilient to the various conditions both MongoDB and Kubernetes can find themselves in.
 
-*It's a fork of [cvallance/mongo-k8s-sidecar](https://github.com/cvallance/mongo-k8s-sidecar) with (many) changes and improvements.*
+*It's a fork of [morphy2k/k8s-mongo-sidecar](https://github.com/morphy2k/k8s-mongo-sidecar) which is a fork of [cvallance/mongo-k8s-sidecar](https://github.com/cvallance/mongo-k8s-sidecar).*
 
 ## How to use it
 
-The docker image is hosted on Docker Hub and can be found here:
-[https://hub.docker.com/r/morphy/k8s-mongo-sidecar](https://hub.docker.com/r/morphy/k8s-mongo-sidecar)
+<!-- The docker image is hosted on Docker Hub and can be found here:
+[https://hub.docker.com/r/vonerrol/k8s-mongo-sidecar](https://hub.docker.com/r/vonerrol/k8s-mongo-sidecar)  -->
 
 An example Kubernetes replication controller can be found in the examples directory on GitHub:
-[https://github.com/morphy2k/k8s-mongo-sidecar](https://github.com/morphy2k/k8s-mongo-sidecar/tree/master/example)
+[https://github.com/vonerrol/k8s-mongo-sidecar](https://github.com/vonerrol/k8s-mongo-sidecar/tree/master/example)
 
 
 ### Settings
