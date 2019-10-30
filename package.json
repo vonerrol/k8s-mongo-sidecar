@@ -1,20 +1,23 @@
 {
   "name": "k8s-mongo-sidecar",
   "description": "Kubernetes sidecar for mongoDB",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "license": "MIT",
   "author": {
     "name": "Markus Wiegand",
     "email": "mail@morphy2k.io",
     "url": "https://morphy2k.io"
   },
-  "contributors": "https://github.com/morphy2k/k8s-mongo-sidecar/graphs/contributors",
+  "contributors": [
+    "Erron Silver <4406479+vonerrol@users.noreply.github.com> (https://github.com/vonerrol)",
+    "Others (https://github.com/vonerrol/k8s-mongo-sidecar/graphs/contributors)"
+  ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/morphy2k/k8s-mongo-sidecar.git"
+    "url": "https://github.com/vonerrol/k8s-mongo-sidecar.git"
   },
   "bugs": {
-    "url": "https://github.com/morphy2k/k8s-mongo-sidecar/issues"
+    "url": "https://github.com/vonerrol/k8s-mongo-sidecar/issues"
   },
   "engines": {
     "node": ">=8.11.0"
@@ -22,6 +25,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
+    "debug": "node --nolazy --inspect src/index.js",
     "lint": "eslint .",
     "pretest": "npm run lint",
     "test": "echo \"No tests\""
