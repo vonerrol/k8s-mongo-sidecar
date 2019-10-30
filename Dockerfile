@@ -1,14 +1,14 @@
-FROM node:lts-slim
-LABEL maintainer Markus Wiegand <mail@morphy2k.io>
+FROM node:lts-alpine
+LABEL maintainer="Erron Silver <4406479+vonerrol@users.noreply.github.com>"
 
 ENV NODE_ENV=production
 
-WORKDIR /opt/k8s-mongo-sidecar
+WORKDIR /usr/src/app
 
-COPY package.json package-lock.json /opt/k8s-mongo-sidecar/
+COPY package.json package-lock.json /usr/src/app/
 
 RUN npm install
 
-COPY ./src /opt/k8s-mongo-sidecar/src
+COPY src /usr/src/app/src
 
 CMD ["npm", "start"]
