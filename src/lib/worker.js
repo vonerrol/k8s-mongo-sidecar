@@ -225,7 +225,7 @@ const addrToAddLoop = (pods, members) => {
     let podInRs = false;
 
     for (const member of members) {
-      if (member.name === podIpAddr || member.name === podStableNetworkAddr) {
+      if (member.name === podIpAddr || member.name === podStableNetworkAddr || member.ip === pod.status.podIP) {
         /* If we have the pod's ip or the stable network address already in the config, no need to read it. Checks both the pod IP and the
         * stable network ID - we don't want any duplicates - either one of the two is sufficient to consider the node present. */
         podInRs = true;
@@ -267,17 +267,37 @@ const getPodIpAddressAndPort = pod => {
 };
 
 /**
- * Gets the pod's address. It can be either in the form of
- * '<pod-name>.<mongo-kubernetes-service>.<pod-namespace>.svc.cluster.local:<mongo-port>'. See:
- * <a href="https://kubernetes.io/docs/concepts/abstractions/controllers/statefulsets/#stable-network-id">Stateful Set documentation</a>
- * for more details. If those are not set, then simply the pod's IP is returned.
+ * Gets the pod's address. 
+ * 
+ * If the pod spec contains both hostname and subdomain and the subdomain matches the service name, the address will be in the format:
+ * 
+ * '<hostname>.<mongo-kubernetes-service>.<pod-namespace>.svc.cluster.local:<mongo-port>'
+ * 
+ * See:<a href="https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-hostname-and-subdomain-fields">DNS for Services and Pods - Pod's hostname and subdomain fields</a>.
+ * 
+ * Otherwise, if the pod belongs to a stateful set, the address will be in the format:
+ * 
+ * '<pod-name>.<mongo-kubernetes-service>.<pod-namespace>.svc.cluster.local:<mongo-port>'
+ * 
+ * See:<a href="https://kubernetes.io/docs/concepts/abstractions/controllers/statefulsets/#stable-network-id">Stateful Sets - Stable Network ID</a>. 
+ * 
+ * If those are not set, then simply the pod's IP is returned.
+ * 
  * @param pod the Kubernetes pod, containing the information from the k8s client.
  * @returns string the k8s MongoDB stable network address, or undefined.
  */
 const getPodStableNetworkAddressAndPort = pod => {
   if (!config.k8sMongoServiceName || !pod || !pod.metadata || !pod.metadata.name || !pod.metadata.namespace) return;
 
-  return `${pod.metadata.name}.${config.k8sMongoServiceName}.${pod.metadata.namespace}.svc.${config.k8sClusterDomain}:${config.mongoPort}`;
+  let hostname;
+
+  if (pod.spec && pod.spec.hostname && pod.spec.subdomain && pod.spec.subdomain === config.k8sMongoServiceName) {
+    hostname = pod.spec.hostname;
+  } else {
+    hosntame = pod.metadata.name
+  }
+
+  return `${hostname}.${config.k8sMongoServiceName}.${pod.metadata.namespace}.svc.${config.k8sClusterDomain}:${config.mongoPort}`;
 };
 
 module.exports = {
